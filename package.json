@@ -1,0 +1,21 @@
+{
+  "name": "parallax-background",
+  "version": "1.0.0",
+  "description": "An es6 class to control a background parallax based on the height of the image",
+  "main": "js/parallax.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "keywords": [
+    "JavaScript",
+    "es6",
+    "class",
+    "parallax",
+    "background"
+  ],
+  "author": "Emmanuel Davies",
+  "license": "MIT",
+  "dependencies": {
+    "@meteora-digital/helpers": "^1.0.3"
+  }
+}
