@@ -7,7 +7,7 @@ An easy to use parallax class.
 with webpack
 
 ```bash
-yarn add parallax-background
+yarn add background-parallax
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ yarn add parallax-background
 ```
 
 ```es6
-import Parallax from 'parallax-background';
+import Parallax from 'background-parallax';
 
 const banner = document.querySelectorAll('[data-parallax]');
 
@@ -40,15 +40,6 @@ const myParallax = new Parallax(banner);
 		width: 100%;
 	}
 }
-```
-
-```es6
-import Parallax from 'parallax-background';
-
-const banner = document.querySelectorAll('[data-parallax]');
-
-const myParallax = new Parallax(banner);
-
 ```
 
 ## Options
