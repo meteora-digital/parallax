@@ -2,7 +2,7 @@
   "name": "background-parallax",
   "version": "1.0.1",
   "description": "An es6 class to control a background parallax based on the height of the image",
-  "main": "js/parallax.js",
+  "main": "dist/js/parallax.js",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
@@ -17,5 +17,12 @@
   "license": "MIT",
   "dependencies": {
     "@meteora-digital/helpers": "^1.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-plumber": "^1.2.1"
   }
 }
