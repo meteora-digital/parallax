@@ -76,8 +76,8 @@ var Parallax = /*#__PURE__*/function () {
   }, {
     key: "getScrollPercent",
     value: function getScrollPercent() {
-      var distance = window.pageYOffset + window.innerHeight - (this.container.offset - 200);
-      var percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight + 200)) / 100));
+      var distance = window.pageYOffset + window.innerHeight - this.container.offset;
+      var percentage = Math.round(distance / ((window.innerHeight + this.container.element.clientHeight) / 100));
       return Math.min(99, Math.max(1, percentage)) - 100;
     }
   }, {
@@ -93,9 +93,9 @@ var Parallax = /*#__PURE__*/function () {
 
           if (this.media.y > percentage + this.settings.minDistance || this.media.y < percentage - this.settings.minDistance) {
             if (this.media.element.clientHeight > this.container.element.clientHeight) {
-              this.media.y += scaleDifference(this.media.y, percentage) * 20;
+              this.media.y += scaleDifference(this.media.y, percentage) * 15;
             } else {
-              this.media.y -= scaleDifference(this.media.y, percentage) * 20;
+              this.media.y -= scaleDifference(this.media.y, percentage) * 15;
             }
 
             this.media.element.style.transform = "translateY(".concat(this.media.y, "px)");
