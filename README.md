@@ -30,14 +30,17 @@ const myParallax = new Parallax(banner);
 ```scss
 .banner {
 	position: relative;
-	height: 600px;
+	height: 800px;
+	overflow: hidden;
 
 	&__background {
 		position: absolute;
 		top: 0;
 		left: 0;
-		height: 130%;
 		width: 100%;
+		height: 140%;
+		background-position: center;
+		background-size: cover;
 	}
 }
 ```
