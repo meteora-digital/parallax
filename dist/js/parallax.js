@@ -76,7 +76,7 @@ var Parallax = /*#__PURE__*/function () {
   }, {
     key: "getScrollPercent",
     value: function getScrollPercent() {
-      var distance = window.pageYOffset + window.innerHeight - (this.container.offset + 200);
+      var distance = window.pageYOffset + window.innerHeight - (this.container.offset - 200);
       var percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight + 200)) / 100));
       return Math.min(99, Math.max(1, percentage)) - 100;
     }

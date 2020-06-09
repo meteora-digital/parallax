@@ -65,7 +65,7 @@ export default class Parallax {
 	}
 
 	getScrollPercent() {
-		const distance = (window.pageYOffset + window.innerHeight) - (this.container.offset + 200);
+		const distance = (window.pageYOffset + window.innerHeight) - (this.container.offset - 200);
 		const percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight + 200)) / 100));
 
 		return Math.min(99, Math.max(1, percentage)) - 100;
