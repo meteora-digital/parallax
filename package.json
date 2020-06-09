@@ -1,6 +1,6 @@
 {
   "name": "background-parallax",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An es6 class to control a background parallax based on the height of the image",
   "main": "js/parallax.js",
   "scripts": {
