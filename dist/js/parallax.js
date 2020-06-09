@@ -5,9 +5,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // Helpers
-var attach = require('@meteora-digital/helpers/js/attach');
+var attach = require('@meteora-digital/helpers/dist/js/attach');
 
-var offsetY = require('@meteora-digital/helpers/js/offsetY');
+var offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
 
 var scaleDifference = function scaleDifference(a, b) {
   return (a - b) / a;
