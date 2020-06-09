@@ -1,6 +1,6 @@
 // Helpers
-const attach = require('@meteora-digital/helpers/js/attach');
-const offsetY = require('@meteora-digital/helpers/js/offsetY');
+const attach = require('@meteora-digital/helpers/dist/js/attach');
+const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
 
 const scaleDifference = (a,b) => {
 	return (a - b) / a;
