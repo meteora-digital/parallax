@@ -2,12 +2,8 @@
 const attach = require('@meteora-digital/helpers/dist/js/attach');
 const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
 
-const scaleDifference = (a,b) => {
-	return (a - b) / a;
-}
-
 // Class
-export default class Parallax {
+export default class ParallaxBackground {
 	constructor(container, scale = false) {
 		// Initialise data
 		this.media = {};
@@ -20,6 +16,7 @@ export default class Parallax {
 			minDistance: 1,
 			distance: 0,
 			enabled: true,
+			movement: null,
 		}
 
 		// Find the elements
@@ -41,6 +38,8 @@ export default class Parallax {
 	init() {
 		// Initialise the scale of the media
 		if (this.settings.scale) this.media.element.style.height = this.settings.scale * 100 + '%';
+
+		this.media.element.style.transition = 'transform .25s ease-out';
 
 		// Update our data
 		this.resize();
@@ -68,28 +67,24 @@ export default class Parallax {
 		const distance = (window.pageYOffset + window.innerHeight) - (this.container.offset);
 		const percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight)) / 100));
 
-		return Math.min(99, Math.max(1, percentage)) - 100;
+		return (Math.min(100, Math.max(0, percentage)) - 100);
 	}
 
 	parallax() {
 		if (this.settings.enabled) {
 			this.settings.scrollPercent = this.getScrollPercent();
 
-			if (this.settings.scrollPercent > -99 && this.settings.scrollPercent < -1) {
-				let percentage = this.settings.distance / 100 * this.settings.scrollPercent;
+			if (this.settings.scrollPercent > -100 && this.settings.scrollPercent < 0) {
+				this.movement = this.settings.scrollPercent / 100 * this.settings.distance;
 
-				if (this.media.y > percentage + this.settings.minDistance || this.media.y < percentage - this.settings.minDistance) {
-
-					if (this.media.element.clientHeight > this.container.element.clientHeight) {
-						this.media.y += scaleDifference(this.media.y, percentage) * 15;
-					}else {
-						this.media.y -= scaleDifference(this.media.y, percentage) * 15;
-					}
-
+				if (this.media.y > this.movement + this.settings.minDistance || this.media.y < this.movement - this.settings.minDistance) {
+					this.media.y = this.movement;
 					this.media.element.style.transform = `translateY(${this.media.y}px)`;
+
 				}else {
 					this.settings.enabled = false;
 				}
+
 			}else {
 				this.settings.enabled = false;
 			}
@@ -97,4 +92,30 @@ export default class Parallax {
 			window.requestAnimationFrame(() => this.parallax());
 		}
 	}
+
+	// parallax() {
+	// 	if (this.settings.enabled) {
+	// 		this.settings.scrollPercent = this.getScrollPercent();
+
+	// 		if (this.settings.scrollPercent > -99 && this.settings.scrollPercent < -1) {
+	// 			let percentage = this.settings.distance / 100 * this.settings.scrollPercent;
+
+	// 			if (this.media.y > percentage + this.settings.minDistance || this.media.y < percentage - this.settings.minDistance) {
+	// 				if (this.media.element.clientHeight > this.container.element.clientHeight) {
+	// 					this.media.y += scaleDifference(this.media.y, percentage) * 10;
+	// 				}else {
+	// 					this.media.y -= scaleDifference(this.media.y, percentage) * 10;
+	// 				}
+
+	// 				this.media.element.style.transform = `translateY(${this.media.y}px)`;
+	// 			}else {
+	// 				this.settings.enabled = false;
+	// 			}
+	// 		}else {
+	// 			this.settings.enabled = false;
+	// 		}
+
+	// 		window.requestAnimationFrame(() => this.parallax());
+	// 	}
+	// }
 }
