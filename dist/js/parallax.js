@@ -5,10 +5,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // Helpers
-var attach = require('@meteora-digital/helpers/dist/js/attach');
-
-var offsetY = require('@meteora-digital/helpers/dist/js/offsetY'); // Class
-
+import { attach, offsetY } from '@meteora-digital/helpers'; // const attach = require('@meteora-digital/helpers/dist/js/attach');
+// const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
+// Class
 
 var ParallaxBackground = /*#__PURE__*/function () {
   function ParallaxBackground(container) {

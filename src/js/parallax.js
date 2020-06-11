@@ -1,6 +1,8 @@
 // Helpers
-const attach = require('@meteora-digital/helpers/dist/js/attach');
-const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
+import {attach, offsetY} from '@meteora-digital/helpers';
+
+// const attach = require('@meteora-digital/helpers/dist/js/attach');
+// const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
 
 // Class
 export default class ParallaxBackground {
