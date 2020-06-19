@@ -23,7 +23,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
       throttle: 250,
       scrollPercent: 0,
       minDistance: 1,
-      distance: 0,
+      distance: 1,
       enabled: true,
       movement: null
     }; // Find the elements
@@ -45,30 +45,37 @@ var ParallaxBackground = /*#__PURE__*/function () {
   }, {
     key: "init",
     value: function init() {
+      var _this = this;
+
       // Initialise the scale of the media
-      if (this.settings.scale) this.media.element.style.height = this.settings.scale * 100 + '%';
-      this.media.element.style.transition = 'transform .25s ease-out'; // Update our data
+      if (this.settings.scale) this.media.element.style.height = this.settings.scale * 100 + '%'; // Update our data
 
       this.resize(); // Add events
 
       this.events();
+      this.media.element.style.transform = "translateY(".concat(this.getScrollPercent() / 100 * this.settings.distance, "px)");
+      setTimeout(function () {
+        _this.media.element.style.transition = 'transform .25s ease-out';
+      }, 100);
     }
   }, {
     key: "events",
     value: function events() {
-      var _this = this;
+      var _this2 = this;
 
       attach(window, 'resize', function () {
-        _this.resize();
+        _this2.resize();
       }, this.settings.throttle);
       attach(window, 'scroll', function () {
-        if (_this.settings.enabled === false) {
-          _this.settings.enabled = true;
+        if (_this2.settings.enabled === false) {
+          _this2.settings.enabled = true;
 
-          _this.parallax();
+          _this2.parallax();
         }
       }, 50);
-      this.parallax();
+      setTimeout(function () {
+        _this2.parallax();
+      }, 100);
     }
   }, {
     key: "getScrollPercent",
@@ -80,7 +87,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
   }, {
     key: "parallax",
     value: function parallax() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.settings.enabled) {
         this.settings.scrollPercent = this.getScrollPercent();
@@ -99,7 +106,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
         }
 
         window.requestAnimationFrame(function () {
-          return _this2.parallax();
+          return _this3.parallax();
         });
       }
     } // parallax() {

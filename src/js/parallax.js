@@ -16,7 +16,7 @@ export default class ParallaxBackground {
 			throttle: 250,
 			scrollPercent: 0,
 			minDistance: 1,
-			distance: 0,
+			distance: 1,
 			enabled: true,
 			movement: null,
 		}
@@ -41,13 +41,17 @@ export default class ParallaxBackground {
 		// Initialise the scale of the media
 		if (this.settings.scale) this.media.element.style.height = this.settings.scale * 100 + '%';
 
-		this.media.element.style.transition = 'transform .25s ease-out';
-
 		// Update our data
 		this.resize();
 
 		// Add events
 		this.events();
+
+		this.media.element.style.transform = `translateY(${this.getScrollPercent() / 100 * this.settings.distance}px)`;
+
+		setTimeout(() => {
+			this.media.element.style.transition = 'transform .25s ease-out';
+		}, 100);
 	}
 
 	events() {
@@ -62,7 +66,9 @@ export default class ParallaxBackground {
 			}
 		}, 50);
 
-		this.parallax();
+		setTimeout(() => {
+			this.parallax();
+		}, 100);
 	}
 
 	getScrollPercent() {
