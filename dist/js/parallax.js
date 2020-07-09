@@ -18,7 +18,6 @@ var ParallaxBackground = /*#__PURE__*/function () {
     this.container = {};
     this.settings = {
       scale: scale,
-      throttle: 250,
       scrollPercent: 0,
       minDistance: 1,
       distance: 1,
@@ -65,7 +64,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
 
       attach(window, 'resize', function () {
         _this2.resize();
-      }, this.settings.throttle);
+      }, 250);
       attach(window, 'scroll', function () {
         if (_this2.settings.enabled === false) {
           _this2.settings.enabled = true;

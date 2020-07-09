@@ -10,7 +10,6 @@ export default class ParallaxBackground {
 
 		this.settings = {
 			scale: scale,
-			throttle: 250,
 			scrollPercent: 0,
 			minDistance: 1,
 			distance: 1,
@@ -56,7 +55,7 @@ export default class ParallaxBackground {
 	events() {
 		attach(window, 'resize', () => {
 			this.resize();
-		}, this.settings.throttle);
+		}, 250);
 
 		attach(window, 'scroll', () => {
 			if (this.settings.enabled === false) {
