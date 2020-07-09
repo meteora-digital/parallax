@@ -5,7 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // Helpers
-import { attach, offsetY } from '@meteora-digital/helpers'; // Class
+import { attach, offsetY, getTransformValues } from '@meteora-digital/helpers'; // Class
 
 var ParallaxBackground = /*#__PURE__*/function () {
   function ParallaxBackground(container) {
@@ -23,7 +23,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
       minDistance: 1,
       distance: 1,
       enabled: true,
-      movement: null
+      movement: null,
+      current: null
     }; // Find the elements
 
     this.container.element = container;
@@ -38,7 +39,6 @@ var ParallaxBackground = /*#__PURE__*/function () {
       // Container data
       this.container.offset = offsetY(this.container.element);
       this.settings.distance = this.container.element.clientHeight / this.media.element.clientHeight * 100 - 100;
-      console.log(this.settings.distance);
       this.media.y = this.settings.distance / 100 * this.getScrollPercent();
     }
   }, {
@@ -54,7 +54,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
       this.events();
       this.media.element.style.transform = "translateY(".concat(this.settings.distance / 100 * this.getScrollPercent() - 50, "%)");
       setTimeout(function () {
-        _this.media.element.style.transition = 'transform .25s ease-out';
+        // this.media.element.style.transition = 'transform .25s ease-out';
         _this.media.element.style.top = '50%';
       }, 100);
     }
@@ -89,18 +89,34 @@ var ParallaxBackground = /*#__PURE__*/function () {
     value: function parallax() {
       var _this3 = this;
 
+      // Only loop when we have scrolled
       if (this.settings.enabled) {
-        this.settings.scrollPercent = this.getScrollPercent();
+        this.settings.scrollPercent = this.getScrollPercent(); // Check that the value is within the viewport with our scroll percentage function
 
         if (this.settings.scrollPercent > -50 && this.settings.scrollPercent < 50) {
-          this.movement = this.settings.distance / 100 * this.settings.scrollPercent - 50;
-          this.media.element.style.transform = "translateY(".concat(this.movement, "%)");
+          // grab our current transform percentage
+          this.current = getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100; // grab the needed transform value
+
+          this.movement = this.settings.distance / 100 * this.settings.scrollPercent - 50; // calculate the difference
+
+          var difference = (Math.abs(this.current) - Math.abs(this.movement)) / Math.abs(this.current); // add a little threshold to avoid endless loops with maths that wont play nice :)
+
+          if (this.current < this.movement - .5 || this.current > this.movement + .5) {
+            // update the media's transform css
+            this.media.element.style.transform = "translateY(".concat(Math.round((this.current + difference * 3) * 1000) / 1000, "%)");
+          } else {
+            // if we if our threshold, exit the loop
+            this.settings.enabled = false;
+          } // repeat the function
+
+
+          window.requestAnimationFrame(function () {
+            return _this3.parallax();
+          });
+        } else {
+          // if we're not looking at it, dont animate it!
           this.settings.enabled = false;
         }
-
-        window.requestAnimationFrame(function () {
-          return _this3.parallax();
-        });
       }
     }
   }]);
