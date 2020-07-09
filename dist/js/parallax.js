@@ -5,9 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // Helpers
-import { attach, offsetY } from '@meteora-digital/helpers'; // const attach = require('@meteora-digital/helpers/dist/js/attach');
-// const offsetY = require('@meteora-digital/helpers/dist/js/offsetY');
-// Class
+import { attach, offsetY } from '@meteora-digital/helpers'; // Class
 
 var ParallaxBackground = /*#__PURE__*/function () {
   function ParallaxBackground(container) {
@@ -39,7 +37,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
     value: function resize() {
       // Container data
       this.container.offset = offsetY(this.container.element);
-      this.settings.distance = this.media.element.clientHeight - this.container.element.clientHeight;
+      this.settings.distance = this.container.element.clientHeight / this.media.element.clientHeight * 100 - 100;
+      console.log(this.settings.distance);
       this.media.y = this.settings.distance / 100 * this.getScrollPercent();
     }
   }, {
@@ -53,9 +52,10 @@ var ParallaxBackground = /*#__PURE__*/function () {
       this.resize(); // Add events
 
       this.events();
-      this.media.element.style.transform = "translateY(".concat(this.getScrollPercent() / 100 * this.settings.distance, "px)");
+      this.media.element.style.transform = "translateY(".concat(this.settings.distance / 100 * this.getScrollPercent() - 50, "%)");
       setTimeout(function () {
         _this.media.element.style.transition = 'transform .25s ease-out';
+        _this.media.element.style.top = '50%';
       }, 100);
     }
   }, {
@@ -82,7 +82,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     value: function getScrollPercent() {
       var distance = window.pageYOffset + window.innerHeight - this.container.offset;
       var percentage = Math.round(distance / ((window.innerHeight + this.container.element.clientHeight) / 100));
-      return Math.min(100, Math.max(0, percentage)) - 100;
+      return -(Math.min(100, Math.max(0, percentage)) - 50);
     }
   }, {
     key: "parallax",
@@ -92,16 +92,9 @@ var ParallaxBackground = /*#__PURE__*/function () {
       if (this.settings.enabled) {
         this.settings.scrollPercent = this.getScrollPercent();
 
-        if (this.settings.scrollPercent > -100 && this.settings.scrollPercent < 0) {
-          this.movement = this.settings.scrollPercent / 100 * this.settings.distance;
-
-          if (this.media.y > this.movement + this.settings.minDistance || this.media.y < this.movement - this.settings.minDistance) {
-            this.media.y = this.movement;
-            this.media.element.style.transform = "translateY(".concat(this.media.y, "px)");
-          } else {
-            this.settings.enabled = false;
-          }
-        } else {
+        if (this.settings.scrollPercent > -50 && this.settings.scrollPercent < 50) {
+          this.movement = this.settings.distance / 100 * this.settings.scrollPercent - 50;
+          this.media.element.style.transform = "translateY(".concat(this.movement, "%)");
           this.settings.enabled = false;
         }
 
@@ -109,28 +102,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
           return _this3.parallax();
         });
       }
-    } // parallax() {
-    // 	if (this.settings.enabled) {
-    // 		this.settings.scrollPercent = this.getScrollPercent();
-    // 		if (this.settings.scrollPercent > -99 && this.settings.scrollPercent < -1) {
-    // 			let percentage = this.settings.distance / 100 * this.settings.scrollPercent;
-    // 			if (this.media.y > percentage + this.settings.minDistance || this.media.y < percentage - this.settings.minDistance) {
-    // 				if (this.media.element.clientHeight > this.container.element.clientHeight) {
-    // 					this.media.y += scaleDifference(this.media.y, percentage) * 10;
-    // 				}else {
-    // 					this.media.y -= scaleDifference(this.media.y, percentage) * 10;
-    // 				}
-    // 				this.media.element.style.transform = `translateY(${this.media.y}px)`;
-    // 			}else {
-    // 				this.settings.enabled = false;
-    // 			}
-    // 		}else {
-    // 			this.settings.enabled = false;
-    // 		}
-    // 		window.requestAnimationFrame(() => this.parallax());
-    // 	}
-    // }
-
+    }
   }]);
 
   return ParallaxBackground;
