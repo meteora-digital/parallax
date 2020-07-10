@@ -11,7 +11,7 @@ export default class ParallaxBackground {
 		this.settings = {
 			scale: scale,
 			scrollPercent: 0,
-			minDistance: 1,
+			threshold: .3,
 			distance: 1,
 			enabled: true,
 			movement: null,
@@ -94,7 +94,7 @@ export default class ParallaxBackground {
 				let difference = (Math.abs(this.current) - Math.abs(this.movement)) / Math.abs(this.current);
 
 				// add a little threshold to avoid endless loops with maths that wont play nice :)
-				if (this.current < this.movement - .5 || this.current > this.movement + .5) {
+				if (this.current < this.movement - this.settings.threshold || this.current > this.movement + this.settings.threshold) {
 					// update the media's transform css
 					this.media.element.style.transform = `translateY(${Math.round((this.current + difference * 3) * 1000) / 1000}%)`;
 				}else {
