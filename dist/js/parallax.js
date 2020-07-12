@@ -19,7 +19,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     this.settings = {
       scale: scale,
       scrollPercent: 0,
-      threshold: .3,
+      threshold: .05,
       distance: 1,
       enabled: true,
       movement: null,

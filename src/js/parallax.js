@@ -11,7 +11,7 @@ export default class ParallaxBackground {
 		this.settings = {
 			scale: scale,
 			scrollPercent: 0,
-			threshold: .3,
+			threshold: .05,
 			distance: 1,
 			enabled: true,
 			movement: null,
@@ -108,7 +108,6 @@ export default class ParallaxBackground {
 				// if we're not looking at it, dont animate it!
 				this.settings.enabled = false;
 			}
-
 		}
 	}
 }
