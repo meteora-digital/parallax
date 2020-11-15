@@ -5,7 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // Helpers
-import { attach, offsetY, getTransformValues } from '@meteora-digital/helpers'; // Class
+import { attach, offset, getTransformValues } from '@meteora-digital/helpers'; // Class
 
 var ParallaxBackground = /*#__PURE__*/function () {
   function ParallaxBackground(container) {
@@ -36,7 +36,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     key: "resize",
     value: function resize() {
       // Container data
-      this.container.offset = offsetY(this.container.element);
+      this.container.offset = offset(this.container.element).y;
       this.settings.distance = this.container.element.clientHeight / this.media.element.clientHeight * 100 - 100;
       this.media.y = this.settings.distance / 100 * this.getScrollPercent();
     }

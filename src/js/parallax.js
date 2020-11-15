@@ -1,5 +1,5 @@
 // Helpers
-import {attach, offsetY, getTransformValues} from '@meteora-digital/helpers';
+import {attach, offset, getTransformValues} from '@meteora-digital/helpers';
 
 // Class
 export default class ParallaxBackground {
@@ -28,7 +28,7 @@ export default class ParallaxBackground {
 
 	resize() {
 		// Container data
-		this.container.offset = offsetY(this.container.element);
+		this.container.offset = offset(this.container.element).y;
 		this.settings.distance = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
 
 		this.media.y = this.settings.distance / 100 * this.getScrollPercent();
