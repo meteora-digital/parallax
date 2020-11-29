@@ -141,7 +141,6 @@ export default class ParallaxBackground {
         }else {
           // there is no animation required so parallax is not needed
           this.enabled.x = false;
-          this.transform.x = -50;
         }
 
         if (this.enabled.y) {
@@ -163,7 +162,6 @@ export default class ParallaxBackground {
         }else {
           // there is no animation required so parallax is not needed
           this.enabled.y = false;
-          this.transform.y = -50;
         }
 
         // Add the element's transform
