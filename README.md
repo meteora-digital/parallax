@@ -47,11 +47,22 @@ const myParallax = new Parallax(banner);
 
 ## Options
 
-set the height of the banner to 130% the height of the parent.
+Set the direction of the parallax - note, our image needs to be larger or smaller than the container to parallax, if it is the same size, nothing will happen.
+All numbers will be rounded to either -1, 0 or 1.
 
 ```es6
-new Parallax(banner, 1.3);
+new Parallax(banner, {
+	x: 0,
+	y: 1,
+});
 ```
+
+## Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| x | number | 1 will move the image to the right, -1 will move the image to the left, 0 will not move the image | 
+| y | number | 1 will move the image down, -1 will move the image up, 0 will not move the image | 
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

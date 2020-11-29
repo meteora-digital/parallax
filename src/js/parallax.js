@@ -1,113 +1,180 @@
 // Helpers
-import {attach, offset, getTransformValues} from '@meteora-digital/helpers';
+import { objectAssign, attach, offset, getTransformValues } from '@meteora-digital/helpers';
 
 // Class
 export default class ParallaxBackground {
-	constructor(container, scale = false) {
-		// Initialise data
-		this.media = {};
-		this.container = {};
+  constructor(container, direction = {}) {
+    // Initialise data
+    this.media = {};
+    this.container = {};
 
-		this.settings = {
-			scale: scale,
-			scrollPercent: 0,
-			threshold: .05,
-			distance: 1,
-			enabled: true,
-			movement: null,
-			current: null,
-		}
+    this.deadzone = 0.005;
+    this.scrollPercent = 0;
 
-		// Find the elements
-		this.container.element = container;
-		this.media.element = this.container.element.querySelector('[data-parallax-watch]');
+    this.direction = objectAssign({
+      x: 0,
+      y: 1,
+    }, direction);
 
-		// If we have elements, then start the function
-		if (this.container.element && this.media.element) this.init();
-	}
+    this.transform = {
+      x: -50,
+      y: -50,
+    }
 
-	resize() {
-		// Container data
-		this.container.offset = offset(this.container.element).y;
-		this.settings.distance = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
+    this.enabled = {
+      x: false,
+      y: false,
+    },
 
-		this.media.y = this.settings.distance / 100 * this.getScrollPercent();
-	}
+    this.current = {
+      x: 0,
+      y: 0,
+    },
 
-	init() {
-		// Initialise the scale of the media
-		if (this.settings.scale) this.media.element.style.height = this.settings.scale * 100 + '%';
+    this.distance = {
+      x: 0,
+      y: 0,
+    }
 
-		// Update our data
-		this.resize();
+    this.direction = {
+      x: Math.round(Math.min(1, Math.max(-1, this.direction.x))),
+      y: Math.round(Math.min(1, Math.max(-1, this.direction.y))),
+    }
 
-		// Add events
-		this.events();
+    // Find the elements
+    this.container.element = container;
+    this.media.element = this.container.element.querySelector('[data-parallax-watch]');
 
-		this.media.element.style.transform = `translateY(${(this.settings.distance / 100 * this.getScrollPercent()) - 50}%)`;
+    // If we have elements, then start the function
+    if (this.container.element && this.media.element) this.init();
+  }
 
-		setTimeout(() => {
-			// this.media.element.style.transition = 'transform .25s ease-out';
-			this.media.element.style.top = '50%';
-		}, 100);
-	}
+  resize() {
+    // Container data
+    this.container.offset = offset(this.container.element).y;
+    this.distance.y = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
+    this.distance.x = (this.container.element.clientWidth / this.media.element.clientWidth * 100) - 100;
 
-	events() {
-		attach(window, 'resize', () => {
-			this.resize();
-		}, 250);
+    this.media.x = this.distance / 100 * this.getScrollPercent();
+    this.media.y = this.distance / 100 * this.getScrollPercent();
+  }
 
-		attach(window, 'scroll', () => {
-			if (this.settings.enabled === false) {
-				this.settings.enabled = true;
-				this.parallax();
-			}
-		}, 50);
+  init() {
+    // Update our data
+    this.resize();
 
-		setTimeout(() => {
-			this.parallax();
-		}, 100);
-	}
+    // Add events
+    this.events();
 
-	getScrollPercent() {
-		const distance = (window.pageYOffset + window.innerHeight) - (this.container.offset);
-		const percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight)) / 100));
+    // Initialise the x transform
+    if (this.direction.x != 0) {
+      this.enabled.x = true;
+      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50;
+    }
 
-		return  - ((Math.min(100, Math.max(0, percentage)) - 50));
-	}
+    // Initialise the y transform
+    if (this.direction.y != 0) {
+      this.enabled.y = true;
+      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50;
+    }
 
-	parallax() {
-		// Only loop when we have scrolled
-		if (this.settings.enabled) {
-			this.settings.scrollPercent = this.getScrollPercent();
+    // Initialise the element transform
+    this.media.element.style.transform = `translateX(${this.transform.x}%) translateY(${this.transform.y}%)`;
 
-			// Check that the value is within the viewport with our scroll percentage function
-			if (this.settings.scrollPercent > -50 && this.settings.scrollPercent < 50) {
+    setTimeout(() => {
+      // this.media.element.style.transition = 'transform .25s ease-out';
+      this.media.element.style.top = '50%';
+      this.media.element.style.left = '50%';
+    }, 100);
+  }
 
-				// grab our current transform percentage
-				this.current = getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100;
+  events() {
+    attach(window, 'resize', () => this.resize(), 250);
 
-				// grab the needed transform value
-				this.movement = this.settings.distance / 100 * this.settings.scrollPercent - 50;
+    attach(window, 'scroll', () => {
+      if (this.enabled.x === false || this.enabled.y === false) {
+        if (this.distance.x != 0 && this.direction.x != 0) this.enabled.x = true;
+        if (this.distance.y != 0 && this.direction.y != 0) this.enabled.y = true;
 
-				// calculate the difference
-				let difference = (Math.abs(this.current) - Math.abs(this.movement)) / Math.abs(this.current);
+        this.parallax();
+      }
+    }, 50);
 
-				// add a little threshold to avoid endless loops with maths that wont play nice :)
-				if (this.current < this.movement - this.settings.threshold || this.current > this.movement + this.settings.threshold) {
-					// update the media's transform css
-					this.media.element.style.transform = `translateY(${Math.round((this.current + difference * 3) * 1000) / 1000}%)`;
-				}else {
-					// if we if our threshold, exit the loop
-					this.settings.enabled = false;
-				}
+    setTimeout(() => this.parallax(), 100);
+  }
 
-				// repeat the function
-				window.requestAnimationFrame(() => this.parallax());
-			} else {
-				// if we're not looking at it, dont animate it!
-				this.settings.enabled = false;
-			}
-		}
-	}
+  getScrollPercent() {
+    const distance = (window.pageYOffset + window.innerHeight) - (this.container.offset);
+    const percentage = Math.round(distance / ((window.innerHeight + (this.container.element.clientHeight)) / 100));
+
+    return  - ((Math.min(100, Math.max(0, percentage)) - 50));
+  }
+
+  parallax() {
+    // Only loop when we have scrolled
+    if (this.enabled.x || this.enabled.y) {
+      // console.log(this.enabled);
+      this.scrollPercent = this.getScrollPercent();
+
+      // Check that the value is within the viewport with our scroll percentage function
+      if (this.scrollPercent > -50 && this.scrollPercent < 50) {
+        // grab our current transform percentage
+        this.current = {
+          x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100,
+          y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100,
+        }
+
+        if (this.enabled.x) {
+          // grab the needed transform value
+          this.movementX =  this.distance.x / 100 * this.scrollPercent - 50 * this.direction.x;
+
+          // calculate the difference
+          this.differenceX = (Math.abs(this.current.x) - Math.abs(this.movementX)) / Math.abs(this.current.x);
+
+          if (this.current.x < this.movementX - this.deadzone || this.current.x > this.movementX + this.deadzone) {
+            // update the media's transform css
+            this.transform.x = (Math.round((this.current.x + this.differenceX) * 10000) / 10000);
+          }else {
+            // if we if our deadzone, exit the loop
+            this.enabled.x = false;
+          }
+        }else {
+          // there is no animation required so parallax is not needed
+          this.enabled.x = false;
+          this.transform.x = -50;
+        }
+
+        if (this.enabled.y) {
+          // grab the needed transform value
+          this.movementY =  this.distance.y / 100 * this.scrollPercent - 50 * this.direction.y;
+
+          // calculate the difference
+          this.differenceY = (Math.abs(this.current.y) - Math.abs(this.movementY)) / Math.abs(this.current.y);
+
+          if (this.current.y < this.movementY - this.deadzone || this.current.y > this.movementY + this.deadzone) {
+            // update the media's transform css
+            if (this.direction.y != 0) {
+              this.transform.y = (Math.round((this.current.y + this.differenceY) * 10000) / 10000);
+            }
+          }else {
+            // if we if our deadzone, exit the loop
+            this.enabled.y = false;
+          }
+        }else {
+          // there is no animation required so parallax is not needed
+          this.enabled.y = false;
+          this.transform.y = -50;
+        }
+
+        // Add the element's transform
+        this.media.element.style.transform = `translateX(${this.transform.x}%) translateY(${this.transform.y}%)`;
+        // repeat the function
+        window.requestAnimationFrame(() => this.parallax());
+      } else {
+        // if we're not looking at it, dont animate it!
+        this.enabled.x = false;
+        this.enabled.y = false;
+      }
+    }
+  }
 }
