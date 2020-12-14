@@ -69,13 +69,13 @@ export default class ParallaxBackground {
     // Initialise the x transform
     if (this.direction.x != 0) {
       this.enabled.x = true;
-      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50;
+      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50 || -50;
     }
 
     // Initialise the y transform
     if (this.direction.y != 0) {
       this.enabled.y = true;
-      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50;
+      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50 || -50;
     }
 
     // Initialise the element transform
