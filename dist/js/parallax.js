@@ -96,8 +96,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
       }, 250);
       attach(window, 'scroll', function () {
         if (_this2.enabled.x === false || _this2.enabled.y === false) {
-          if (_this2.distance.x != 0 && _this2.direction.x != 0) _this2.enabled.x = true;
-          if (_this2.distance.y != 0 && _this2.direction.y != 0) _this2.enabled.y = true;
+          if (_this2.distance.x != 0 || _this2.direction.x != 0) _this2.enabled.x = true;
+          if (_this2.distance.y != 0 || _this2.direction.y != 0) _this2.enabled.y = true;
 
           _this2.parallax();
         }
@@ -126,8 +126,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
         if (this.scrollPercent > -50 && this.scrollPercent < 50) {
           // grab our current transform percentage
           this.current = {
-            x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100,
-            y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100
+            x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100 || -50,
+            y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100 || -50
           };
 
           if (this.enabled.x) {

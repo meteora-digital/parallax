@@ -93,8 +93,8 @@ export default class ParallaxBackground {
 
     attach(window, 'scroll', () => {
       if (this.enabled.x === false || this.enabled.y === false) {
-        if (this.distance.x != 0 && this.direction.x != 0) this.enabled.x = true;
-        if (this.distance.y != 0 && this.direction.y != 0) this.enabled.y = true;
+        if (this.distance.x != 0 || this.direction.x != 0) this.enabled.x = true;
+        if (this.distance.y != 0 || this.direction.y != 0) this.enabled.y = true;
 
         this.parallax();
       }
@@ -120,8 +120,8 @@ export default class ParallaxBackground {
       if (this.scrollPercent > -50 && this.scrollPercent < 50) {
         // grab our current transform percentage
         this.current = {
-          x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100,
-          y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100,
+          x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100 || -50,
+          y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100 || -50,
         }
 
         if (this.enabled.x) {
