@@ -17,8 +17,8 @@ export default class ParallaxBackground {
     }, direction);
 
     this.transform = {
-      x: -50,
-      y: -50,
+      x: (this.direction.x !== 0) ? -50 : 0,
+      y: (this.direction.y !== 0) ? -50 : 0,
     }
 
     this.enabled = {
@@ -52,8 +52,14 @@ export default class ParallaxBackground {
   resize() {
     // Container data
     this.container.offset = offset(this.container.element).y;
-    this.distance.y = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
-    this.distance.x = (this.container.element.clientWidth / this.media.element.clientWidth * 100) - 100;
+
+    if (this.direction.y !== 0) {
+      this.distance.y = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
+    }
+
+    if (this.direction.x !== 0) {
+      this.distance.x = (this.container.element.clientWidth / this.media.element.clientWidth * 100) - 100;
+    }
 
     this.media.x = this.distance / 100 * this.getScrollPercent();
     this.media.y = this.distance / 100 * this.getScrollPercent();
@@ -69,22 +75,26 @@ export default class ParallaxBackground {
     // Initialise the x transform
     if (this.direction.x != 0) {
       this.enabled.x = true;
-      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50 || -50;
+      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50;
     }
 
     // Initialise the y transform
     if (this.direction.y != 0) {
       this.enabled.y = true;
-      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50 || -50;
+      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50;
     }
 
     // Initialise the element transform
     this.media.element.style.transform = `translateX(${this.transform.x}%) translateY(${this.transform.y}%)`;
 
     setTimeout(() => {
-      // this.media.element.style.transition = 'transform .25s ease-out';
-      this.media.element.style.top = '50%';
-      this.media.element.style.left = '50%';
+      if (this.direction.y !== 0) {
+        this.media.element.style.top = '50%';
+      }
+
+      if (this.direction.x !== 0) {
+        this.media.element.style.left = '50%';
+      }
     }, 100);
   }
 
@@ -120,8 +130,8 @@ export default class ParallaxBackground {
       if (this.scrollPercent > -50 && this.scrollPercent < 50) {
         // grab our current transform percentage
         this.current = {
-          x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100 || -50,
-          y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100 || -50,
+          x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100,
+          y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100,
         }
 
         if (this.enabled.x) {
