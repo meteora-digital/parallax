@@ -55,14 +55,17 @@ export default class ParallaxBackground {
 
     if (this.direction.y !== 0) {
       this.distance.y = (this.container.element.clientHeight / this.media.element.clientHeight * 100) - 100;
+      this.enabled.y = true;
     }
 
     if (this.direction.x !== 0) {
       this.distance.x = (this.container.element.clientWidth / this.media.element.clientWidth * 100) - 100;
+      this.enabled.x = true;
     }
 
     this.media.x = this.distance / 100 * this.getScrollPercent();
     this.media.y = this.distance / 100 * this.getScrollPercent();
+
   }
 
   init() {
@@ -75,13 +78,13 @@ export default class ParallaxBackground {
     // Initialise the x transform
     if (this.direction.x != 0) {
       this.enabled.x = true;
-      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50;
+      this.transform.x = (this.distance.x / 100 * this.getScrollPercent()) - 50 || -50;
     }
 
     // Initialise the y transform
     if (this.direction.y != 0) {
       this.enabled.y = true;
-      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50;
+      this.transform.y = (this.distance.y / 100 * this.getScrollPercent()) - 50 || -50;
     }
 
     // Initialise the element transform
