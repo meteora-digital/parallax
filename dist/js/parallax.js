@@ -1,12 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _helpers = require("@meteora-digital/helpers");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// Helpers
-import { objectAssign, attach, offset, getTransformValues } from '@meteora-digital/helpers'; // Class
-
+// Class
 var ParallaxBackground = /*#__PURE__*/function () {
   function ParallaxBackground(container) {
     var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -18,7 +25,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     this.container = {};
     this.deadzone = 0.005;
     this.scrollPercent = 0;
-    this.direction = objectAssign({
+    this.direction = (0, _helpers.objectAssign)({
       x: 0,
       y: 1
     }, direction);
@@ -51,7 +58,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     key: "resize",
     value: function resize() {
       // Container data
-      this.container.offset = offset(this.container.element).y;
+      this.container.offset = (0, _helpers.offset)(this.container.element).y;
 
       if (this.direction.y !== 0) {
         this.distance.y = this.container.element.clientHeight / this.media.element.clientHeight * 100 - 100;
@@ -104,10 +111,10 @@ var ParallaxBackground = /*#__PURE__*/function () {
     value: function events() {
       var _this2 = this;
 
-      attach(window, 'resize', function () {
+      (0, _helpers.attach)(window, 'resize', function () {
         return _this2.resize();
       }, 250);
-      attach(window, 'scroll', function () {
+      (0, _helpers.attach)(window, 'scroll', function () {
         if (_this2.enabled.x === false || _this2.enabled.y === false) {
           if (_this2.distance.x != 0 || _this2.direction.x != 0) _this2.enabled.x = true;
           if (_this2.distance.y != 0 || _this2.direction.y != 0) _this2.enabled.y = true;
@@ -139,8 +146,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
         if (this.scrollPercent > -50 && this.scrollPercent < 50) {
           // grab our current transform percentage
           this.current = {
-            x: getTransformValues(this.media.element).translateX / this.media.element.clientWidth * 100,
-            y: getTransformValues(this.media.element).translateY / this.media.element.clientHeight * 100
+            x: (0, _helpers.getTransformValues)(this.media.element).translateX / this.media.element.clientWidth * 100,
+            y: (0, _helpers.getTransformValues)(this.media.element).translateY / this.media.element.clientHeight * 100
           };
 
           if (this.enabled.x) {
@@ -199,4 +206,4 @@ var ParallaxBackground = /*#__PURE__*/function () {
   return ParallaxBackground;
 }();
 
-export { ParallaxBackground as default };
+exports["default"] = ParallaxBackground;
