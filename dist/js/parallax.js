@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _helpers = require("@meteora-digital/helpers");
+var _meteora = require("meteora");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -25,7 +25,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     this.container = {};
     this.deadzone = 0.005;
     this.scrollPercent = 0;
-    this.direction = (0, _helpers.objectAssign)({
+    this.direction = (0, _meteora.objectAssign)({
       x: 0,
       y: 1
     }, direction);
@@ -58,7 +58,7 @@ var ParallaxBackground = /*#__PURE__*/function () {
     key: "resize",
     value: function resize() {
       // Container data
-      this.container.offset = (0, _helpers.offset)(this.container.element).y;
+      this.container.offset = (0, _meteora.offset)(this.container.element).y;
 
       if (this.direction.y !== 0) {
         this.distance.y = this.container.element.clientHeight / this.media.element.clientHeight * 100 - 100;
@@ -111,10 +111,10 @@ var ParallaxBackground = /*#__PURE__*/function () {
     value: function events() {
       var _this2 = this;
 
-      (0, _helpers.attach)(window, 'resize', function () {
+      (0, _meteora.attach)(window, 'resize', function () {
         return _this2.resize();
       }, 250);
-      (0, _helpers.attach)(window, 'scroll', function () {
+      (0, _meteora.attach)(window, 'scroll', function () {
         if (_this2.enabled.x === false || _this2.enabled.y === false) {
           if (_this2.distance.x != 0 || _this2.direction.x != 0) _this2.enabled.x = true;
           if (_this2.distance.y != 0 || _this2.direction.y != 0) _this2.enabled.y = true;
@@ -146,8 +146,8 @@ var ParallaxBackground = /*#__PURE__*/function () {
         if (this.scrollPercent > -50 && this.scrollPercent < 50) {
           // grab our current transform percentage
           this.current = {
-            x: (0, _helpers.getTransformValues)(this.media.element).translateX / this.media.element.clientWidth * 100,
-            y: (0, _helpers.getTransformValues)(this.media.element).translateY / this.media.element.clientHeight * 100
+            x: (0, _meteora.getTransformValues)(this.media.element).translateX / this.media.element.clientWidth * 100,
+            y: (0, _meteora.getTransformValues)(this.media.element).translateY / this.media.element.clientHeight * 100
           };
 
           if (this.enabled.x) {
