@@ -1,4 +1,7 @@
-# Parallax
+# Deprecation Notice
+### Discontinued support in favour of [Magic Scrolls](https://www.npmjs.com/package/magic-scrolls) 🧙‍♀️
+
+## Parallax
 
 An easy to use parallax class.
 
