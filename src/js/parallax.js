@@ -1,5 +1,5 @@
 // Helpers
-import { objectAssign, attach, offset, getTransformValues } from '@meteora-digital/helpers';
+import { objectAssign, attach, offset, getTransformValues } from 'meteora';
 
 // Class
 export default class ParallaxBackground {
