@@ -824,11 +824,6 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@meteora-digital/helpers@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@meteora-digital/helpers/-/helpers-1.4.1.tgz#688c5d0c496913a2375b507f0e49ae79106b8285"
-  integrity sha512-m0ufGjbA8guywKWZoHR8Zhf498zs+8uCcWxDFQp0tidBN0kahVx9TlBcsG2D6D1hiIbhfZaIVnZxaRIdWO90pA==
-
 ansi-colors@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
@@ -2293,6 +2288,11 @@ matchdep@^2.0.0:
     resolve "^1.4.0"
     stack-trace "0.0.10"
 
+meteora@latest:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/meteora/-/meteora-0.0.7.tgz#4c51fc4449b2b57c14ab8adf3ad6c1bdbd4fe12a"
+  integrity sha512-NB9zJUcEX1L4Oc7uYK2tPLV41qEBo5JjAsHoXVl4SC4Rgy+FQsPXoJvv9xo123b3suDzgUTFj29cGxdrht3yZw==
+
 micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
@@ -2320,9 +2320,9 @@ minimatch@^3.0.4:
     brace-expansion "^1.1.7"
 
 minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 mixin-deep@^1.2.0:
   version "1.3.2"
